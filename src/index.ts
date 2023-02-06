@@ -14,8 +14,6 @@ async function run(): Promise<void> {
 
     const currentPackageJson = await getCurrentPackageJson(token);
     const previousPackageJson = await getPreviousPackageJson(token);
-    core.debug(`Current package.json: ${currentPackageJson.name ?? ''}@${currentPackageJson.version ?? ''}`);
-    core.debug(`Previous package.json: ${previousPackageJson.name ?? ''}@${previousPackageJson.version ?? ''}`);
 
     const dependencies = getDependencies(currentPackageJson);
     const previousDependencies = getDependencies(previousPackageJson);
