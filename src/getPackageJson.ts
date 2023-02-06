@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import { context, getOctokit } from '@actions/github';
 
 export type Dependencies = Record<string, string>;
@@ -11,6 +12,8 @@ export interface PackageJson {
 
 export async function getPackageJson(ref: string, token: string): Promise<PackageJson> {
   const octokit = getOctokit(token);
+
+  core.debug(`repo: ${JSON.stringify(context.repo)}`);
   const contents = await octokit.rest.repos.getContent({ ...context.repo, ref, path: 'package.json' });
   // @ts-expect-error content exists, but OctokitResponse type generic is not exported from @actions/github
   const base64Data = <string | undefined>contents.data.content;
