@@ -1,22 +1,17 @@
-Action Template
-===============
+Check Has Package Json Update
+=============================
 
-# TODO
+Action to check whether the package.json dependencies or devDependencies were updated in the last commit. Outputs three variables:
 
-1. Update the description & workflow steps
-2. Update the action.yml file
-3. Rename from "Action Template" to whatever the actions is called, in the title AND yml.
-4. Finalize the logic
-5. Compile and commit the compiled bundle
-6. Create a v1.0.0 branch to reference
-
-{Describe the action briefly}
+* has-updated: Whether there was a difference in the current and previous dependencies
+* dependencies: The combined dependencies and devDependencies for the last commit
+* previous-dependencies: The combined dependencies and devDependencies before the commit
 
 # Workflow
 
-* What it does initially
-* What happens in the logic
-* The final outcome and output
+* Get package.json for the repo before and after the last commit
+* Get the combined dependencies and devDependencies for the two package.json files
+* Check if the dependencies have been changes in the last commit
 
 # Usage
 
@@ -30,9 +25,9 @@ on:
       - develop
 
 jobs:
-  check_external_dependencies:
+  check_has_package_json_update:
     runs-on: ubuntu-latest
-    name: Action Template
+    name: Check Has Package JSON Update
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,8 +35,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Current action name
-        uses: surikaterna/action-template@v1.0.0
+      - name: Check has package json update
+        uses: surikaterna/check-has-package-json-update@v1.0.0
         with:
-          some-arg: 'input-value'
+          token: ${{ secrets.GITHUB_TOKEN }}
 ```

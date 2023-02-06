@@ -1,12 +1,16 @@
-name: Action Template
-description: What the template does
+name: Check Has Package JSON Update
+description: Check whether the package.json file was updated with the latest commit
 inputs:
-  some-input:
-    description: 'Tell me what this does'
-    default: ''
+  token:
+    description: 'The GitHub Secret Token'
+    required: true
 outputs:
-  some-output:
-    description: 'What is provided to following actions'
+  has-updated:
+    description: 'Whether the package.json file was updated in the latest commit'
+  dependencies:
+    description: 'Current dependencies and devDependencies'
+  previous-dependencies:
+    description: 'Dependencies and devDependencies before the last commit'
 runs:
   using: node16
   main: lib/index.js
