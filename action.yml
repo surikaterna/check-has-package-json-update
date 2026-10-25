@@ -7,10 +7,25 @@ inputs:
 outputs:
   has-updated:
     description: 'Whether the package.json file was updated in the latest commit'
+    value: ${{ steps.action.outputs.has-updated }}
   dependencies:
     description: 'Current dependencies and devDependencies'
+    value: ${{ steps.action.outputs.dependencies }}
   previous-dependencies:
     description: 'Dependencies and devDependencies before the last commit'
+    value: ${{ steps.action.outputs.previous-dependencies }}
 runs:
-  using: node16
-  main: lib/index.js
+  using: composite
+  steps:
+    - name: Install patched Node.js
+      uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      with:
+        node-version: '22.23.4'
+        package-manager-cache: false
+    - name: Check package JSON update
+      id: action
+      shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+        INPUT_TOKEN: ${{ inputs.token }}
+      run: node "$ACTION_PATH/lib/index.js"
